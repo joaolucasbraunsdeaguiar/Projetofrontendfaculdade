@@ -1,0 +1,148 @@
+Projeto MVP Front-End / Link do Site: https://terêverdeonline.com
+
+Lista de Requisitos Funcionais e Não-funcionais: 
+
+1. Home
+
+Logo de Teresópolis
+Menu: Home | Parques | Contatos
+Carrossel dos 3 parques
+Cards com resumo de cada parque
+Botão "Saiba mais"
+
+2. Página "Parques"
+
+Os três parques em cards
+Foto
+Nome
+Pequena descrição
+Botão "Ver detalhes"
+
+3. Página individual do parque
+
+Imagem principal
+Descrição
+Horário de funcionamento
+Trilhas/atrações
+Eventos
+Localização
+Galeria de fotos
+
+4. Contatos
+
+Informações de contato
+Formulário
+Botão "Área Administrativa"
+
+5. Login ADM
+
+Usuário
+Senha
+Botão entrar
+
+6. Dashboard ADM — protótipo
+Aqui você pode simular a administração:
+
+Parques cadastrados: 3
+Eventos ativos: 8
+Horários configurados: 6
+
+E colocar botões como:
+
+🏞️ Gerenciar parques
+🕐 Gerenciar horários
+📅 Gerenciar eventos
+➕ Adicionar evento
+💻 Para a disciplina de Front-End
+
+
+Prototipação (Máximo de 3 telas)
+Código-Fonte do MVP Front-End
+
+O repositório no GitHub deve incluir um arquivo README.md informativo que contenha as seguintes informações:
+
+●     Dados dos integrantes da equipe: João Lucas Brauns de Aguiar (Matricula: 06012524)
+●     Escolha da situação-problema: Circuito Terê Verde
+●     Descrição sucinta do MVP: 
+	MVP — Teresópolis Parques
+
+Site institucional em HTML5, CSS3 e JavaScript puro, sem backend. Apresenta os três parques de Teresópolis (Serra dos Órgãos, Três Picos e Montanhas de Teresópolis) e permite que colaboradores atualizem as informações por um painel administrativo.
+
+Área pública
+Home: Carrossel dos parques e cards com resumo e botão "Saiba mais".
+Parques: Listagem com foto, descrição e "Ver detalhes".
+Detalhes do parque: Abas de Sobre, Trilhas, Horários, Eventos e Como chegar, mais galeria de fotos. Trilhas em manutenção são sinalizadas, e um banner vermelho aparece quando o parque está fechado.
+Contatos: Informações, formulário simulado e acesso à Área Administrativa.
+
+Área administrativa
+Login: Usuário "admin", senha "teresopolis2026".
+Dashboard: Indicadores de parques, eventos e horários.
+Gerenciamento: Alterar status aberto/fechado, editar horários, adicionar e remover eventos.
+
+Persistência: As alterações do ADM ficam no localStorage e aparecem imediatamente nas páginas públicas. É a simulação de "backend" suficiente para demonstrar o conceito.
+
+Identidade visual: Paleta de verdes, tipografia Fraunces + Inter, divisor de serra em SVG e layout responsivo.
+
+Limitações do protótipo: O login é só demonstrativo (sem segurança real), os dados ficam apenas no navegador e as seções Mídia e Usuários são placeholders. O próximo passo natural seria um backend com banco de dados e autenticação de verdade.
+
+●     Instruções para executar o MVP localmente (caso necessário): 
+Como executar o MVP localmente
+
+O projeto é um site estático, então não precisa de instalação de dependências nem de banco de dados.
+
+1. Extraia o projeto
+Baixe o "teresopolis-parques.zip" e extraia. A estrutura será:
+teresopolis/
+├── index.html
+├── parques.html
+├── parque.html
+├── contatos.html
+├── login.html
+├── admin.html
+├── css/style.css
+└── js/ (data.js, main.js, admin.js)
+
+2. Escolha uma forma de abrir
+
+Opção A: direto no navegador (mais simples)
+Dê dois cliques em index.html. Funciona, mas alguns navegadores limitam o `localStorage` em arquivos abertos via file://, o que pode afetar o painel ADM.
+
+Opção B: servidor local (recomendado)
+
+Com Node.js:
+bash
+cd teresopolis
+npx serve
+Acesse o endereço exibido (normalmente http://localhost:3000).
+
+Com Python:
+bash
+cd teresopolis
+python -m http.server 8080
+Acesse http://localhost:8080.
+
+Com VS Code: instale a extensão Live Server, clique com o botão direito em index.html e escolha Open with Live Server.
+
+3. Teste o fluxo completo
+1. Na Home, navegue pelo carrossel e clique em Saiba mais.
+2. Em Contatos, clique em Acessar ADM.
+3. Faça login com:
+   - Usuário: admin
+   - Senha: teresopolis2026
+4. No painel, altere o status de um parque para Fechado ou edite um horário.
+5. Volte à página pública do parque e confirme que a mudança aparece (inclusive o banner vermelho de parque fechado).
+
+4. Observações
+Internet necessária: As fotos (Unsplash) e as fontes (Google Fonts) são carregadas online.
+Dados no navegador: As alterações do ADM ficam no localStorage, então valem só para aquele navegador. Para restaurar o estado original, use Configurações → Restaurar dados padrão no painel, ou limpe os dados do site nas ferramentas do navegador (F12 → Application → Local Storage).
+Porta ocupada: Se der erro, troque o número da porta (por exemplo, python -m http.server 9000).
+
+
+Ideia do Site
+
+Ter uma tela principal onde seja apresentando um carrossel apresentando cada parque (Parque Nacional da Serra dos Órgãos, o Parque Estadual dos Três Picos e o Parque Natural Municipal Montanhas de Teresópolis), neste mesmo página tenha a logo de Teresópolis do lado superior esquerdo e seja apresentando os campos de HOME, PARQUES E CONTATOS. Indo para parte de baixo do site seja possível ter uma descrição breve de cada parte que um botão ainda para clicar em mais, onde seja direcionado para uma nova página com todos os detalhes do parque e horário e possíveis eventos, trilhas a serem feitas no parque e possíveis avisos de trilhas em manutenção. Ser ainda apresentando se o parque estiver fechado na aba de mais detalhes do parque colocar uma sinalização em vermelho de parque fechado. Seja apresentando uma aba de ADM dentro de contatos onde seja possível ser feito o acesso por pessoas que trabalham no local, para assim realizar os ajustes nos horários e eventos em cada parque.
+
+HTML5 → estrutura
+CSS3 → identidade visual e responsividade
+JavaScript → carrossel, filtros, navegação e interações
+LocalStorage → se quiser simular alterações feitas pelo administrador

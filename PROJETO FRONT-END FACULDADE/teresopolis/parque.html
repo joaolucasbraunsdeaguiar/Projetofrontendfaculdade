@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Parque — Teresópolis Parques</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 36L16 14L24 26L30 16L44 36H4Z" stroke="#1c4c38" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="35" cy="11" r="3.2" fill="#b8933d"/>
+      </svg>
+      <span class="logo-text"><strong>Teresópolis</strong><span>RJ · BRASIL</span></span>
+    </a>
+    <nav class="main-nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="parques.html" aria-current="page">Parques</a></li>
+        <li><a href="contatos.html">Contatos</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="park-root">
+  <!-- preenchido via JavaScript -->
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Teresópolis - RJ - Brasil</p>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h-2a5 5 0 0 0-5 5v2H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const parkId = params.get('id');
+  const park = parkId ? getParkById(parkId) : null;
+  const root = document.getElementById('park-root');
+
+  if (!park) {
+    root.innerHTML = `
+      <div class="container" style="padding-block:100px; text-align:center;">
+        <h1>Parque não encontrado</h1>
+        <p style="color:var(--ink-500); margin-block:14px 24px;">O parque que você procura não existe ou foi removido.</p>
+        <a class="btn btn-primary" href="parques.html">Ver todos os parques</a>
+      </div>`;
+  } else {
+    document.getElementById('page-title').textContent = `${park.name} — Teresópolis Parques`;
+    const isClosed = park.status === 'fechado';
+
+    root.innerHTML = `
+      <section class="detail-hero">
+        <img src="${park.heroImage}" alt="${park.name}">
+        <div class="detail-hero-content">
+          <div class="container">
+            <a class="back-link" href="parques.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              Voltar
+            </a>
+            <h1>${park.name}</h1>
+            <p>${park.tagline}</p>
+          </div>
+        </div>
+      </section>
+
+      ${isClosed ? `
+      <div class="detail-status-banner">
+        <strong>⚠ Parque fechado</strong> ${park.statusNote || 'Este parque está temporariamente fechado. Consulte os horários para mais informações.'}
+      </div>` : ''}
+
+      <div class="tabs" id="tabs" role="tablist">
+        <button class="is-active" data-tab="sobre" role="tab" aria-selected="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Sobre
+        </button>
+        <button data-tab="trilhas" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20l5-11 3 6 3-9 5 14"/></svg>
+          Trilhas
+        </button>
+        <button data-tab="horarios" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+          Horários
+        </button>
+        <button data-tab="eventos" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>
+          Eventos
+        </button>
+        <button data-tab="chegar" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Como chegar
+        </button>
+      </div>
+
+      <div class="container">
+        <!-- SOBRE -->
+        <div class="tab-panel is-active" data-panel="sobre">
+          <div class="detail-layout">
+            <div>
+              <div class="meta-row">
+                <span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${park.location}</span>
+                <span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Fundado em ${park.founded}</span>
+                <span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20l6-16 4 10 3-6 5 12"/></svg>${park.biome}</span>
+              </div>
+              <h2 style="font-size:1.35rem; margin-bottom:12px;">Sobre o parque</h2>
+              <p class="prose">${park.description}</p>
+
+              <h2 style="font-size:1.15rem; margin-block:32px 16px;">Galeria de fotos</h2>
+              <div class="gallery-grid">
+                ${park.gallery.map((src, i) => `<a href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="Foto ${i + 1} de ${park.name}" loading="lazy"></a>`).join('')}
+              </div>
+            </div>
+            <aside>
+              <div class="info-card">
+                <h4>Horário de funcionamento</h4>
+                <div class="kv-list">
+                  <div class="kv"><span class="k">Todos os dias</span><span class="v">${park.hours.weekdays}</span></div>
+                </div>
+                <p style="font-size:0.82rem; color:var(--ink-500); margin-top:10px;">(${park.hours.note})</p>
+              </div>
+              <div class="info-card">
+                <h4>Ficha técnica</h4>
+                <div class="kv-list">
+                  <div class="kv"><span class="k">Área</span><span class="v">${park.area}</span></div>
+                  <div class="kv"><span class="k">Bioma</span><span class="v">${park.biome}</span></div>
+                  <div class="kv"><span class="k">Criação</span><span class="v">${park.founded}</span></div>
+                </div>
+              </div>
+              ${park.events.length ? `
+              <div class="info-card">
+                <h4>Próximos eventos</h4>
+                ${park.events.slice(0, 3).map((ev) => `
+                  <div class="event-item">
+                    <span class="date">${formatDate(ev.date)}</span>
+                    <div><div class="title">${ev.title}</div><div class="time">${ev.time}</div></div>
+                  </div>`).join('')}
+              </div>` : ''}
+            </aside>
+          </div>
+        </div>
+
+        <!-- TRILHAS -->
+        <div class="tab-panel" data-panel="trilhas">
+          <h2 style="font-size:1.35rem; margin-bottom:18px;">Trilhas e atrações</h2>
+          <table class="trail-table">
+            <thead><tr><th>Trilha</th><th>Dificuldade</th><th>Duração</th><th>Distância</th><th>Situação</th></tr></thead>
+            <tbody>
+              ${park.trails.map((t) => `
+                <tr>
+                  <td><strong>${t.name}</strong>${t.statusNote ? `<div class="trail-note">${t.statusNote}</div>` : ''}</td>
+                  <td><span class="chip ${difficultyChipClass(t.difficulty)}">${t.difficulty}</span></td>
+                  <td>${t.duration}</td>
+                  <td>${t.distance}</td>
+                  <td><span class="chip ${statusChipClass(t.status)}">${statusLabel(t.status)}</span></td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- HORÁRIOS -->
+        <div class="tab-panel" data-panel="horarios">
+          <h2 style="font-size:1.35rem; margin-bottom:18px;">Horário de funcionamento</h2>
+          <div class="info-card" style="max-width:420px;">
+            <div class="kv-list">
+              <div class="kv"><span class="k">Segunda a sexta</span><span class="v">${park.hours.weekdays}</span></div>
+              <div class="kv"><span class="k">Sábados, domingos e feriados</span><span class="v">${park.hours.weekend}</span></div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--ink-500); margin-top:14px; border-top:1px solid var(--line); padding-top:14px;">${park.hours.note}.</p>
+          </div>
+        </div>
+
+        <!-- EVENTOS -->
+        <div class="tab-panel" data-panel="eventos">
+          <h2 style="font-size:1.35rem; margin-bottom:18px;">Eventos programados</h2>
+          <div class="info-card" style="max-width:520px;">
+            ${park.events.length ? park.events.map((ev) => `
+              <div class="event-item">
+                <span class="date">${formatDate(ev.date)}</span>
+                <div><div class="title">${ev.title}</div><div class="time">${ev.time}</div></div>
+              </div>`).join('') : '<p style="color:var(--ink-500); font-size:0.92rem;">Nenhum evento programado no momento.</p>'}
+          </div>
+        </div>
+
+        <!-- COMO CHEGAR -->
+        <div class="tab-panel" data-panel="chegar">
+          <h2 style="font-size:1.35rem; margin-bottom:18px;">Como chegar</h2>
+          <p class="prose" style="max-width:640px;">${park.howToGet}</p>
+        </div>
+
+        <div class="cta-banner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20l6-16 4 10 3-6 5 12"/></svg>
+          Planeje sua visita e aproveite o melhor da natureza!
+        </div>
+      </div>
+    `;
+
+    const tabs = root.querySelectorAll('.tabs button');
+    tabs.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        tabs.forEach((b) => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected', 'true');
+        root.querySelectorAll('.tab-panel').forEach((p) => p.classList.remove('is-active'));
+        root.querySelector(`.tab-panel[data-panel="${btn.dataset.tab}"]`).classList.add('is-active');
+      });
+    });
+  }
+</script>
+</body>
+</html>
